@@ -71,13 +71,15 @@ module.exports = function (ctx, cb) {
               })
             } else {
               storeIps(newIps)
-                .catch((error)=> console.log(error));
+                .catch((error)=> cb(error));
               notifyPagerDuty(newIps)
                 .then((response)=> cb(null, response.data))
+                .catch((error)=> cb(error));
             }
           })
-          .catch((error)=> console.log(error))
-      });
+          .catch((error)=> cb(error))
+        })
+        .catch((error)=> cb(error));
   }
   
   checkIps();
